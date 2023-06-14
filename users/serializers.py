@@ -29,7 +29,28 @@ class UserSerializer(serializers.Serializer):
     is_employee = serializers.BooleanField(allow_null=True, default=False)
     is_superuser = serializers.BooleanField(read_only=True)
 
+    movies_count = serializers.SerializerMethodField()
+    movies_name = serializers.SerializerMethodField
+
+    
+
     def create(self, validated_data):
         validated_data["is_superuser"] = validated_data.get("is_employee", False)
         user = User.objects.create_user(**validated_data)
         return user
+    
+    def get_movies_count(self, obj:User):
+        return obj.movies.count()
+    
+    def get_movies_name(self, obj:User):
+        movies_title = [movie.title for movie in obj.movies.all()]
+        if movies_title:
+            return movies_title
+
+        return "sem filmes registrados"    
+
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=80, write_only=True)
+    password = serializers.CharField(max_length=127, write_only=True)
