@@ -29,7 +29,6 @@ class UserSerializer(serializers.Serializer):
     is_employee = serializers.BooleanField(allow_null=True, default=False)
     is_superuser = serializers.BooleanField(read_only=True)
 
-    movies_count = serializers.SerializerMethodField()
     movies_name = serializers.SerializerMethodField
 
     

@@ -8,3 +8,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50)
     birthdate = models.DateField(blank=True, null=True)
     is_employee = models.BooleanField(default=False)
+
+
+
+
