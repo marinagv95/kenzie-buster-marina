@@ -1,6 +1,6 @@
 from rest_framework import exceptions
 from rest_framework import permissions
-from rest_framework.views import View, Request, Response, status
+from rest_framework.views import View, Request
 from rest_framework.views import exception_handler
 
 
@@ -28,3 +28,14 @@ class CustomIsAuthenticated(permissions.BasePermission):
             return response
 
         return None
+    
+
+class UserAccessPermission(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_employee:
+            return True
+
+        if request.method == 'GET' and obj == request.user:
+            return True
+
+        return False
